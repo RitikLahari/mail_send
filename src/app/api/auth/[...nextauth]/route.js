@@ -44,7 +44,7 @@ const handler = NextAuth({
           provider: account.provider,
           lastSignIn: new Date().toISOString(),
         };
-
+   
         await redisClient.setEx(
           `user:${user.email}`,
           2592000, // 30 days

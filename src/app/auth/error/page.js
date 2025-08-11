@@ -3,8 +3,9 @@
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiAlertTriangle, FiHome, FiRefreshCw } from 'react-icons/fi';
+import { Suspense } from 'react';
 
-export default function AuthError() {
+function AuthErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
 
@@ -73,5 +74,25 @@ export default function AuthError() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthError() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex items-center justify-center p-4">
+        <div className="max-w-md w-full">
+          <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-6">
+              <div className="w-10 h-10 bg-gray-300 rounded animate-pulse"></div>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Loading...</h1>
+            <p className="text-gray-600 mb-8">Please wait while we load the error details.</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <AuthErrorContent />
+    </Suspense>
   );
 } 

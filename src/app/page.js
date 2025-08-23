@@ -112,7 +112,7 @@ export default function Landing() {
 
         <Link
           href="/mail_service"
-          className="mt-8 inline-block px-8 py-3 text-lg font-semibold bg-gradient-to-r from-indigo-500 to-blue-600 rounded-xl shadow-lg hover:scale-105 transform transition duration-300"
+          className="mt-8 inline-block px-8 py-3 text-lg font-semibold bg-blue-800 rounded-xl shadow-lg  hover:bg-blue-300  transform transition duration-300"
         >
           Get Started
         </Link>

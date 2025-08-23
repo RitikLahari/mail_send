@@ -333,9 +333,9 @@ export default function Home() {
         </main>
 
         {/* Floating Compose Button */}
-        <button className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-4 rounded-full shadow-lg hover:scale-105 transition">
+        {/* <button className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-4 rounded-full shadow-lg hover:scale-105 transition">
           <FiPlus className="w-6 h-6" />
-        </button>
+        </button> */}
       </div>
     </>
   );

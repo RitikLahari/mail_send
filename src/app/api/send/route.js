@@ -74,6 +74,7 @@ export async function POST(request) {
       86400, // 24 hours in seconds
       JSON.stringify(messageData)
     );
+    await redisClient.lPush(`user:${session.user.email}:sent`, messageId);
 
     // Send email to recipient
     const emailContent = `

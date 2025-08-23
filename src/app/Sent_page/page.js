@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 export default function SentMessages() {
   const { data: session, status } = useSession();
@@ -126,6 +127,8 @@ export default function SentMessages() {
                         <img 
                           src={`data:image/png;base64,${message.encryptedImage}`} 
                           alt="Encrypted attachment" 
+                          width={320}
+                          height={240}
                           className="max-w-xs rounded-md border border-gray-300"
                         />
                       </div>

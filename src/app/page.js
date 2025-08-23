@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FiMail, FiShield, FiLogOut } from 'react-icons/fi';
 import '../app/globals.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Landing() {
   const { data: session, status } = useSession();
@@ -52,8 +53,9 @@ export default function Landing() {
                   <img
                     src={session.user.picture}
                     alt={session.user.name}
+                    width={36}
+                    height={36}
                     className="w-9 h-9 rounded-full object-cover shadow-sm"
-                    loading="lazy"
                   />
                 ) : (
                   <div className="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold">

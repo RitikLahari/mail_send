@@ -2,7 +2,7 @@
 
 import { signIn, getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -13,9 +13,9 @@ export default function SignIn() {
 
   useEffect(() => {
     checkSession();
-  }, []);
+  }, [checkSession]);
 
-  const checkSession = async () => {
+  const checkSession = useCallback(async () => {
     try {
       const session = await getSession();
       if (session) {
@@ -26,7 +26,7 @@ export default function SignIn() {
     } finally {
       setIsChecking(false);
     }
-  };
+  }, [router]);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);

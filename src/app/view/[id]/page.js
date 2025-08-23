@@ -12,7 +12,7 @@ function SenderInfo({ sender, timestamp }) {
   return (
     <section className="flex items-center space-x-4 border-b border-gray-300 pb-6 mb-6">
       {sender?.picture ? (
-        <Image
+        <img
           src={sender.picture}
           alt={`${sender.name}'s avatar`}
           width={48}
@@ -214,7 +214,7 @@ export default function ViewMessage() {
                 }
                 title="Attached Image"
               >
-                <Image
+                <img
                   src={decryptedData.image}
                   alt="Decrypted message image"
                   width={600}

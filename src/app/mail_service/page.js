@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import toast, { Toaster } from 'react-hot-toast';
 import { FiMail, FiShield, FiLogOut, FiSend, FiFileText, FiSearch, FiPlus } from 'react-icons/fi';
+import Image from 'next/image';
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -78,7 +79,7 @@ export default function Home() {
     }
   };
 
-  const useSuggestion = (suggestion) => {
+  const applySuggestion = (suggestion) => {
     setFormData(prev => ({
       ...prev,
       message: suggestion
@@ -195,6 +196,8 @@ export default function Home() {
                 <img
                   src={session.user.picture || '/default-avatar.png'}
                   alt="User"
+                  width={40}
+                  height={40}
                   className="w-10 h-10 rounded-full object-cover cursor-pointer"
                 />
                 {/* Hover tooltip */}
@@ -277,7 +280,7 @@ export default function Home() {
                           </div>
                           <button
                             type="button"
-                            onClick={() => useSuggestion(suggestion)}
+                            onClick={() => applySuggestion(suggestion)}
                             className="px-3 py-1.5 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-1"
                           >
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

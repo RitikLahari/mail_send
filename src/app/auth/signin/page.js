@@ -11,9 +11,6 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
-  useEffect(() => {
-    checkSession();
-  }, [checkSession]);
 
   const checkSession = useCallback(async () => {
     try {
@@ -28,6 +25,10 @@ export default function SignIn() {
     }
   }, [router]);
 
+  
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {

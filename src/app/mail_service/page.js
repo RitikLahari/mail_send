@@ -17,6 +17,8 @@ export default function Home() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -38,6 +40,51 @@ export default function Home() {
       ...prev,
       image: file,
     }));
+  };
+
+  const generateAISuggestions = async () => {
+    if (!formData.message.trim()) {
+      toast.error('Please enter a message first to get AI suggestions');
+      return;
+    }
+
+    setIsGeneratingSuggestions(true);
+    setAiSuggestions([]);
+
+    try {
+      const response = await fetch('/api/ai-suggestions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: formData.message,
+          recipientEmail: formData.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAiSuggestions(data.suggestions || []);
+        toast.success('AI suggestions generated! ✨');
+      } else {
+        toast.error(data.error || 'Failed to generate AI suggestions');
+      }
+    } catch (error) {
+      toast.error('Failed to generate AI suggestions');
+    } finally {
+      setIsGeneratingSuggestions(false);
+    }
+  };
+
+  const useSuggestion = (suggestion) => {
+    setFormData(prev => ({
+      ...prev,
+      message: suggestion
+    }));
+    setAiSuggestions([]);
+    toast.success('Suggestion applied! ✨');
   };
 
   const handleSubmit = async (e) => {
@@ -180,7 +227,29 @@ export default function Home() {
 
               {/* Message */}
               <div>
-                <label className="block mb-2 font-semibold">Secure Message</label>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="font-semibold">Secure Message</label>
+                  <button
+                    type="button"
+                    onClick={generateAISuggestions}
+                    disabled={isGeneratingSuggestions || !formData.message.trim()}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                  >
+                    {isGeneratingSuggestions ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        AI Suggestions
+                      </>
+                    )}
+                  </button>
+                </div>
                 <textarea
                   name="message"
                   value={formData.message}
@@ -190,6 +259,37 @@ export default function Home() {
                   required
                   className="w-full border rounded-lg px-4 py-3 resize-none"
                 />
+                
+                {/* AI Suggestions */}
+                {aiSuggestions.length > 0 && (
+                  <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                    <h4 className="font-semibold text-purple-800 mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                      AI Suggestions
+                    </h4>
+                    <div className="space-y-3">
+                      {aiSuggestions.map((suggestion, index) => (
+                        <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-purple-200 hover:border-purple-300 transition-colors">
+                          <div className="flex-1">
+                            <p className="text-gray-700 text-sm leading-relaxed">{suggestion}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => useSuggestion(suggestion)}
+                            className="px-3 py-1.5 bg-purple-600 text-white text-xs rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-1"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Use
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Image Upload */}

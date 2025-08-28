@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
+    "crypto": "^1.0.1",
     "next": "15.4.6",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.9.12",
@@ -18,6 +19,7 @@
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "redis": "^5.8.0",
+    "sharp": "^0.34.3",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
